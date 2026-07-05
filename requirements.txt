@@ -1,8 +1,8 @@
 attrs==21.4.0
 Automat==20.2.0
-cffi==1.15.0
+cffi==1.16.0
 constantly==15.1.0
-cryptography==36.0.2
+cryptography==42.0.8
 cssselect==1.1.0
 flake8==4.0.1
 h2==3.2.0
@@ -16,7 +16,7 @@ iniconfig==1.1.1
 itemadapter==0.4.0
 itemloaders==1.0.4
 jmespath==1.0.0
-lxml==4.8.0
+lxml==5.2.2
 mccabe==0.6.1
 packaging==21.3
 parsel==1.6.0
@@ -30,7 +30,7 @@ pycodestyle==2.8.0
 pycparser==2.21
 PyDispatcher==2.0.5
 pyflakes==2.4.0
-pyOpenSSL==22.0.0
+pyOpenSSL==24.1.0
 pyparsing==3.0.7
 pytest==6.2.5
 pytest-pythonpath==0.7.4
