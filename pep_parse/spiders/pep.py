@@ -54,9 +54,11 @@ class PepSpider(scrapy.Spider):
             if match:
                 number = int(match.group(1))
 
+        name = re.sub(r'^PEP\s+\d+\s+[–-]\s+', '', title) if title else None
+
         item = PepParseItem()
         item['number'] = number
-        item['name'] = title
+        item['name'] = name
         item['status'] = status.strip() if status else None
 
         yield item

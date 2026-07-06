@@ -3,6 +3,7 @@ import datetime
 import os
 
 from pep_parse.settings import BASE_DIR
+from .constants import RESULTS_DIR
 
 
 class PepParsePipeline:
@@ -10,21 +11,27 @@ class PepParsePipeline:
         self.stats = {}
 
     def process_item(self, item, spider):
-        status = item.get('status')
-        self.stats[status] = self.stats.get(status, 0) + 1
+        status = item['status']
+        self.stats.setdefault(status, 0)
+        self.stats[status] += 1
         return item
 
     def close_spider(self, spider):
-        results_dir = os.path.join(BASE_DIR, 'results')
+        results_dir = os.path.join(BASE_DIR, RESULTS_DIR)
         os.makedirs(results_dir, exist_ok=True)
 
         now = datetime.datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
-        filename = f'status_summary_{now}.csv'
-        filepath = os.path.join(results_dir, filename)
+        filepath = os.path.join(
+            results_dir,
+            f'status_summary_{now}.csv'
+        )
 
-        with open(filepath, mode='w', encoding='utf-8', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(['Статус', 'Количество'])
-            for status, count in self.stats.items():
-                writer.writerow([status, count])
-            writer.writerow(['Total', sum(self.stats.values())])
+        rows = [['Status', 'Count']]
+        rows.extend(
+            [[status, count] for status, count in self.stats.items()]
+        )
+        rows.append(['Total', sum(self.stats.values())])
+
+        with open(filepath, 'w', encoding='utf-8', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(rows)
